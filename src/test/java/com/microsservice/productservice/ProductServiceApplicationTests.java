@@ -13,10 +13,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.math.BigDecimal;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @Testcontainers
@@ -44,8 +45,8 @@ class ProductServiceApplicationTests {
 		String objectRequestString = objectMapper.writeValueAsString(productRequest);
 		mockMvc.perform(MockMvcRequestBuilders.post("/api/product")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectRequestString)
-		);
+				.content(objectRequestString))
+			.andExpect(status().isCreated());
 	}
 
 	private ProductRequest getProductRequest(){
