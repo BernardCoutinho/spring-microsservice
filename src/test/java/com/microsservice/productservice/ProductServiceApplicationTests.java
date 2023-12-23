@@ -38,7 +38,22 @@ class ProductServiceApplicationTests {
 	}
 
 	@Test
-	void contextLoads() {
+	void createProduct() throws Exception {
+
+		ProductRequest productRequest = getProductRequest();
+		String objectRequestString = objectMapper.writeValueAsString(productRequest);
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/product")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectRequestString)
+		);
+	}
+
+	private ProductRequest getProductRequest(){
+		return ProductRequest.builder()
+				.name("Notebook LeNovo")
+				.description("New Technology")
+				.price(BigDecimal.valueOf(3000))
+				.build();
 	}
 
 }
